@@ -4,7 +4,6 @@ import datetime
 import openai
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'dc71333b4e6fa696b1d85a0c9325cb6937b9f7701242030b'
 
 
 @app.route("/")
@@ -31,25 +30,13 @@ def palette():
 
             palettes, expire_date = setCookies()
             palettes.append(colors)
-            res = make_response(render_template('palette.html', colors=colors, prompt=prompt, current_page = current_page ))  # ENLEVER LUMI SI MARCHE PAS
-            res.set_cookie('palettes', json.dumps(palettes, indent=2), expires=expire_date)
+            res = make_response(render_template('palette.html', colors=colors,
+                                prompt=prompt, current_page=current_page))  # ENLEVER LUMI SI MARCHE PAS
+            res.set_cookie('palettes', json.dumps(
+                palettes, indent=2), expires=expire_date)
     else:
         res = make_response(redirect(url_for('index')))
     return res
-
-
-@app.route('/history')
-def history():
-    palettes = []
-    if 'palettes' in request.cookies:
-        palettes = json.loads(request.cookies.get('palettes'))
-    return render_template('history.html', palettes=palettes[1:])
-
-
-@app.route("/about")
-def about():
-    current_page = "about"
-    return render_template('about.html', current_page=current_page)
 
 
 @app.route("/contact")
@@ -60,7 +47,8 @@ def contact():
 
 def getpalette(prompt_text):
     # input_text is the one given to openAi
-    input_text = 'Elaborate a palette of 5 colors based on the sentiment analysis of this prompt: ' + prompt_text + ' Write the answer as followed: "hexadecimal value$Name of the color$One sentiment the color is based on$Detailed and contextualized description of the sentiment."'
+    input_text = 'Elaborate a palette of 5 colors based on the sentiment analysis of this prompt: ' + prompt_text + \
+        ' Write the answer as followed: "hexadecimal value$Name of the color$One sentiment the color is based on$Detailed and contextualized description of the sentiment."'
     # connection to the openAI API using Joseph's credentials
     openai.api_key = "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"
     response = openai.Completion.create(model="text-davinci-003",
@@ -88,7 +76,8 @@ def setCookies():
     palettes = []
     if 'palettes' in request.cookies:
         palettes = json.loads(request.cookies.get('palettes'))
-        expire_date = datetime.datetime.strptime(palettes[0], "%m/%d/%Y").date()
+        expire_date = datetime.datetime.strptime(
+            palettes[0], "%m/%d/%Y").date()
         if len(palettes[1:]) == 3:
             palettes.pop(1)
     else:
@@ -108,7 +97,8 @@ def get_luminance(colors):
     L = []
     for color in colors:
         r_s_rgb, g_s_rgb, b_s_rgb = hex_to_rgb(color[0])
-        r_s_rgb, g_s_rgb, b_s_rgb = rgbtorange01(r_s_rgb), rgbtorange01(g_s_rgb), rgbtorange01(b_s_rgb)
+        r_s_rgb, g_s_rgb, b_s_rgb = rgbtorange01(
+            r_s_rgb), rgbtorange01(g_s_rgb), rgbtorange01(b_s_rgb)
 
         # if RsRGB <= 0.03928 then R = RsRGB/12.92 else R = ((RsRGB+0.055)/1.055) ^ 2.4
         # if GsRGB <= 0.03928 then G = GsRGB/12.92 else G = ((GsRGB+0.055)/1.055) ^ 2.4
