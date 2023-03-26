@@ -16,7 +16,8 @@
         "titleBar.inactiveBackground": "#70000099",
         "titleBar.inactiveForeground": "#e7e7e799",
         "activityBarBadge.background": "#002000",
-        "activityBarBadge.foreground": "#e7e7e7"
+        "activityBarBadge.foreground": "#e7e7e7",
+        "activityBar.activeBorder": "#002000"
     },
     "peacock.color": "hsla(0, 100%, 22%, 1)"
 }
