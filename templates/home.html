@@ -2,23 +2,39 @@
 
 {% block body %}
 
-<div class="container jumbotron text-center" id="home">
-	<img class="bg-transparent" src="../static/images/MusiClassify.png"
-		alt="MusiClassify Logo">
-	<h1><strong class="bg-transparent">Find the </strong><span class="text-colors">colors</span><strong
-			class="bg-transparent"> for your<br>emotions</strong></h1>
-	<p class="font-italic bg-transparent palette-pres ">Palette is a tool for
-		generating a palette of 5 colors related to the text of your choice. <br>
-		Enjoy our experience ! </p>
+    <div class="container jumbotron text-center" id="home">
+        <img class="bg-transparent" src="../static/images/MusiClassify.png"
+             alt="MusiClassify Logo">
 
-	<form class="form-input" action="palette" method="post"
-		onsubmit="displayLoader()">
-		<input class="input-prompt" type="text" name="prompt" id="input"
-			placeholder="Write a sentence ..." value="{{ request.form['prompt'] }}"
-			maxlength="150" required>
-		<button type="submit" id="btn-continue">
-			<img src="{{ url_for('static',filename='images/next.png') }}" alt="Continue">
-		</button>
-	</form>
-</div>
+        <h1 style="margin-top: 5vh">Upload a file</h1>
+
+        <div style="position: relative; display: flex; justify-content: center; margin-top: 5vh">
+            <form method="post" enctype="multipart/form-data">
+
+                    <div class="button-upload" id="button-7" >
+                        <div id="dub-arrow">
+                            <label for="file"><i class="fa-solid fa-upload" style="color: white;font-size: 1.3em"></i></label>
+                        </div>
+                        <label for="file" class="button-upload-text">Select file</label>
+{#                        <a href="#" class="button-upload-text" target="_blank" rel="noreferrer "></a>#}
+                    </div>
+                {{ form.hidden_tag() }}
+                {{ form.file() }}
+                <br>
+                <br>
+
+
+                <button class="button-upload-text" id="button-submit" type="submit">Submit</button>
+            </form>
+
+            <div class="boxContainer">
+                <div class="box box1"></div>
+                <div class="box box2"></div>
+                <div class="box box3"></div>
+                <div class="box box4"></div>
+                <div class="box box5"></div>
+            </div>
+
+        </div>
+    </div>
 {% endblock %}

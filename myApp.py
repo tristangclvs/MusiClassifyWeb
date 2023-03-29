@@ -100,16 +100,41 @@ def create_app():
             return result_html
         return render_template('upload.html', form=form)
 
-    @app.route("/")
+    @app.route("/",methods=['GET', 'POST'])
     def index():
-        current_page = "home"
-        return render_template('home.html', current_page=current_page)
+        form = UploadForm()
+
+        if form.validate_on_submit():
+            file = request.files['file']
+            print(f"User selected file: {file.filename}")  # print a message
+            file.save('./static/uploads/' + file.filename)  # save the file to the uploads folder
+            print("File saved successfully")
+
+            file_path = './static/uploads/' + file.filename
+            audio_file = audioread.audio_open(file_path)
+
+            file_mfcc(file_path, num_samples_per_segment=num_samples_per_segment,
+                      expected_num_mfcc_vectors_per_segment=expected_num_mfcc_vectors_per_segment,
+                      dirpath=None,
+                      data=data_empty,
+                      hop_length=512, num_segments=num_segments, n_mfcc=25, n_fft=2048,
+                      iterator=1,
+                      file_duration=audio_file.duration)
+            inputs = np.array(data_empty["mfcc"])
+            targets = np.array(data_empty["labels"])
+
+            predicted_genre = predict_sample(model, data_empty, inputs)
+            result_html = result(predicted_genre)
+            # return redirect(url_for('result', predicted_genre=predicted_genre))
+            return result_html
+        return render_template('home.html', form=form, current_page="home")
+        # current_page = "home"
+        # return render_template('home.html', current_page=current_page)
 
     @app.route("/result")
     def result(predicted_genre):
         current_page = "result"
         return render_template('result.html', predicted_genre=predicted_genre, current_page=current_page)
-
 
     return app
 
