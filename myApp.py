@@ -74,7 +74,6 @@ def create_app():
     @app.route('/upload', methods=['GET', 'POST'])
     def upload():
         form = UploadForm()
-
         if form.validate_on_submit():
             file = request.files['file']
             print(f"User selected file: {file.filename}")  # print a message
@@ -103,7 +102,6 @@ def create_app():
     @app.route("/",methods=['GET', 'POST'])
     def index():
         form = UploadForm()
-
         if form.validate_on_submit():
             file = request.files['file']
             print(f"User selected file: {file.filename}")  # print a message
@@ -140,6 +138,7 @@ def create_app():
 
 
 def predict(model, x, data, y="Not given"):
+    """ Predict the genre of a sample """
     x = x[np.newaxis, ...]
     prediction = model.predict(x)
     # print(prediction)
@@ -186,6 +185,7 @@ def file_mfcc(file_path, num_samples_per_segment, expected_num_mfcc_vectors_per_
 
 
 def predict_sample(model, data, inputs):
+
     stock = []
     predictions = []
     final_predictions = []
