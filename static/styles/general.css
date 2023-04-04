@@ -376,4 +376,22 @@ html.is-animating form {
 
 #button-submit{
     display: none;
+    padding: 5%;
+    margin: 0 auto;
+    border-radius: 10px;
+    width: 70%;
+}
+
+form{
+    width: 141px;
+}
+label:nth-child(1) {
+    width: 54px;
+    height: 54px;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+}
+#MusiClassify{
+    pointer-events: none;
 }

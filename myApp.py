@@ -71,34 +71,6 @@ def create_app():
         file = FileField('File', validators=[DataRequired()])
         # FileRequired(),FileAllowed(images, 'Images only!')
 
-    @app.route('/upload', methods=['GET', 'POST'])
-    def upload():
-        form = UploadForm()
-        if form.validate_on_submit():
-            file = request.files['file']
-            print(f"User selected file: {file.filename}")  # print a message
-            file.save('./static/uploads/' + file.filename)  # save the file to the uploads folder
-            print("File saved successfully")
-
-            file_path = './static/uploads/' + file.filename
-            audio_file = audioread.audio_open(file_path)
-
-            file_mfcc(file_path, num_samples_per_segment=num_samples_per_segment,
-                      expected_num_mfcc_vectors_per_segment=expected_num_mfcc_vectors_per_segment,
-                      dirpath=None,
-                      data=data_empty,
-                      hop_length=512, num_segments=num_segments, n_mfcc=25, n_fft=2048,
-                      iterator=1,
-                      file_duration=audio_file.duration)
-            inputs = np.array(data_empty["mfcc"])
-            targets = np.array(data_empty["labels"])
-
-            predicted_genre = predict_sample(model, data_empty, inputs)
-            result_html = result(predicted_genre)
-            # return redirect(url_for('result', predicted_genre=predicted_genre))
-            return result_html
-        return render_template('upload.html', form=form)
-
     @app.route("/",methods=['GET', 'POST'])
     def index():
         form = UploadForm()
@@ -122,7 +94,7 @@ def create_app():
             targets = np.array(data_empty["labels"])
 
             predicted_genre = predict_sample(model, data_empty, inputs)
-            result_html = result(predicted_genre)
+            result_html = result(predicted_genre, file_path)
             # return redirect(url_for('result', predicted_genre=predicted_genre))
             return result_html
         return render_template('home.html', form=form, current_page="home")
@@ -130,9 +102,10 @@ def create_app():
         # return render_template('home.html', current_page=current_page)
 
     @app.route("/result")
-    def result(predicted_genre):
+    def result(predicted_genre, audio_file):
         current_page = "result"
-        return render_template('result.html', predicted_genre=predicted_genre, current_page=current_page)
+        print(audio_file)
+        return render_template('result.html', predicted_genre=predicted_genre,audio_file=audio_file, current_page=current_page)
 
     return app
 

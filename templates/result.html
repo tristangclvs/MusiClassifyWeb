@@ -1,9 +1,16 @@
 {% extends 'layout.html' %}
-
+{{  print("audio file is: ", audio_file) }}
 {% block body %}
 
     <div class="container jumbotron text-center">
         <h1><strong class="bg-transparent">Your audio's genre is : {{ predicted_genre }}</strong></h1>
+
+        <audio controls>
+            <source src="{{ audio_file }}" type="audio/ogg">
+            <source src="{{ audio_file }}" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+
     </div>
 
 {% endblock %}
