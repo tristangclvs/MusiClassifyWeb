@@ -377,9 +377,9 @@ html.is-animating form {
 #button-submit{
     display: none;
     padding: 5%;
-    margin: 0 auto;
     border-radius: 10px;
     width: 70%;
+    margin: 0 auto 1vh;
 }
 
 form{
