@@ -19,5 +19,7 @@
         "activityBarBadge.foreground": "#e7e7e7",
         "activityBar.activeBorder": "#002000"
     },
-    "peacock.color": "hsla(0, 100%, 22%, 1)"
+    "peacock.color": "hsla(0, 100%, 22%, 1)",
+    "appService.defaultWebAppToDeploy": "undefined/subscriptions/af056309-19b3-48c3-96cd-9d77129f7a47/resourceGroups/Musiclassify/providers/Microsoft.Web/sites/Musiclassify",
+    "appService.deploySubpath": "."
 }
